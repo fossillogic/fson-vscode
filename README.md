@@ -39,3 +39,44 @@ config: object: {
  * Types (object, bool, u16, array, i32) → highlighted as keywords
  * Booleans & null → highlighted as constants
  * Strings & numbers → colored appropriately
+
+### Formatting
+
+This extension now includes a **basic formatter**.  
+Use **Right-click → Format Document** or `Shift+Alt+F` to reformat `.fson` files.
+
+Features:
+- Normalizes `key: type: value` spacing
+- Indents nested objects/arrays with 2 spaces
+- Removes empty/extra lines
+
+Limitations:
+- Not a full parser — just regex + indentation rules.
+- Won’t validate syntax (yet).
+- Future version can hook into `fossil_media_fson_stringify()` for 100% fidelity.
+
+## 🔧 Example Before/After
+
+Before:
+
+```fson
+config:object:{
+debug:bool:true,
+data:array:[
+1:i32:42,
+2:i32:100
+]
+}
+```
+
+After:
+
+```fson
+config: object: {
+  debug: bool: true,
+  data: array: [
+    1: i32: 42,
+    2: i32: 100
+  ]
+}
+```
