@@ -1,0 +1,28 @@
+{
+  "name": "fson",
+  "displayName": "FSON Language Support",
+  "description": "Syntax highlighting and basic support for FSON (Fossil Structured Object Notation).",
+  "version": "0.1.0",
+  "publisher": "fossil-logic",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": ["Programming Languages"],
+  "contributes": {
+    "languages": [
+      {
+        "id": "fson",
+        "aliases": ["FSON", "fson"],
+        "extensions": [".fson"],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "fson",
+        "scopeName": "source.fson",
+        "path": "./syntaxes/fson.tmLanguage.json"
+      }
+    ]
+  }
+}
