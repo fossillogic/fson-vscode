@@ -1,34 +1,35 @@
 const vscode = require("vscode");
 
 /**
- * Very naive FSON formatter:
- * - Adds consistent spaces around colons.
- * - Indents objects/arrays with 2 spaces.
+ * A pretty-printer that tries to mimic fossil_media_fson_stringify(pretty=1)
  */
 function formatFson(text) {
   let indentLevel = 0;
-  const indent = () => "  ".repeat(indentLevel);
+  const INDENT = "  ";
+  let result = "";
 
-  const lines = text
+  const tokens = text
+    // Preserve trailing commas by capturing them as tokens
+    .replace(/,\s*/g, ",\n")
+    // Split on newlines and trim
     .split("\n")
-    .map((line) => line.trim())
+    .map((l) => l.trim())
     .filter((l) => l.length > 0);
 
-  const formatted = [];
+  for (let line of tokens) {
+    // Normalize spacing around colon (only if not inside quotes)
+    line = line.replace(/([^"']):\s*/g, "$1: ");
 
-  for (let line of lines) {
-    // Add spacing around colons: key: type: value
-    line = line.replace(/\s*:\s*/g, ": ");
+    // Decrease indent before closing braces/brackets
+    if (/^\}/.test(line) || /^\]/.test(line)) indentLevel--;
 
-    if (line.endsWith("}") || line.endsWith("],")) indentLevel--;
+    result += INDENT.repeat(indentLevel) + line + "\n";
 
-    formatted.push(indent() + line);
-
-    if (line.endsWith("{") || line.endsWith("["))
-      indentLevel++;
+    // Increase indent after opening brace/bracket
+    if (/{\s*$/.test(line) || /\[\s*$/.test(line)) indentLevel++;
   }
 
-  return formatted.join("\n");
+  return result.trimEnd();
 }
 
 function activate(context) {
