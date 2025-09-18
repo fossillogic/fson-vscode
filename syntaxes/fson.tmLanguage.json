@@ -1,0 +1,42 @@
+{
+  "scopeName": "source.fson",
+  "patterns": [
+    {
+      "name": "comment.line.double-slash.fson",
+      "match": "//.*$"
+    },
+    {
+      "name": "comment.block.fson",
+      "begin": "/\\*",
+      "end": "\\*/"
+    },
+    {
+      "name": "entity.name.tag.fson",
+      "match": "\\b([A-Za-z_][A-Za-z0-9_]*)\\s*(?=:)"
+
+    },
+    {
+      "name": "keyword.type.fson",
+      "match": "\\b(null|bool|i(8|16|32|64)|u(8|16|32|64)|f(32|64)|cstr|char|array|object|oct|hex|bin)\\b"
+    },
+    {
+      "name": "constant.language.boolean.fson",
+      "match": "\\b(true|false)\\b"
+    },
+    {
+      "name": "string.quoted.double.fson",
+      "begin": "\"",
+      "end": "\"",
+      "patterns": [
+        {
+          "name": "constant.character.escape.fson",
+          "match": "\\\\."
+        }
+      ]
+    },
+    {
+      "name": "constant.numeric.fson",
+      "match": "\\b[+-]?[0-9]+(\\.[0-9]+)?\\b"
+    }
+  ]
+}
